@@ -6,17 +6,18 @@ class Dishdetail extends Component {
     if (comments === undefined) {
       return <div />;
     } else {
-      const disComments = comments.map(comment => {
-        return (
-          <div className="mb-5" key={comment.id}>
-            <h6 className="my-2">{comment.comment}</h6>
-            <h6 className="my-2">
-              --{comment.author} , {comment.date}
-            </h6>
-          </div>
-        );
-      });
-
+      const disComments = (
+        <ul className="list-unstyled">
+          {comments.map(comment => 
+            <li className="mb-4" key={comment.id}>
+              <h6 className="my-2">{comment.comment}</h6>
+              <h6 className="my-2">
+                --{comment.author} , {comment.date}
+              </h6>
+            </li>
+          )}
+        </ul>
+      );
       return disComments;
     }
   }
@@ -40,7 +41,7 @@ class Dishdetail extends Component {
 
         <div className="col-12 col-md-5 m-1">
           <h3>Comments</h3>
-          {this.renderComments(this.props.dish.comments)}
+            {this.renderComments(this.props.dish.comments)}
         </div>
       </div>
     );
