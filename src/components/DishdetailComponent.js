@@ -2,16 +2,26 @@ import React, { Component } from "react";
 import { Card, CardImg, CardText, CardBody, CardTitle } from "reactstrap";
 
 class Dishdetail extends Component {
-  render() {
-    const comments = this.props.dish.comments.map(comment => {
-      return (
-        <div className="mb-5" key={comment.id}>
-          <h6 className="my-2">{comment.comment}</h6>
-          <h6 className="my-2">--{comment.author},{comment.date}</h6>
-        </div>
-      );
-    });
+  renderComments(comments) {
+    if (comments === undefined) {
+      return <div />;
+    } else {
+      const disComments = comments.map(comment => {
+        return (
+          <div className="mb-5" key={comment.id}>
+            <h6 className="my-2">{comment.comment}</h6>
+            <h6 className="my-2">
+              --{comment.author} , {comment.date}
+            </h6>
+          </div>
+        );
+      });
 
+      return disComments;
+    }
+  }
+
+  render() {
     return (
       <div className="row">
         <div className="col-12 col-md-5 m-1">
@@ -30,7 +40,7 @@ class Dishdetail extends Component {
 
         <div className="col-12 col-md-5 m-1">
           <h3>Comments</h3>
-          {comments}
+          {this.renderComments(this.props.dish.comments)}
         </div>
       </div>
     );
