@@ -8,12 +8,20 @@ import {
   Media
 } from "reactstrap";
 import { Link } from "react-router-dom";
+import { Loading } from "./LoadingComponent";
+import { baseUrl } from "../shared/baseUrl";
+import { Fade, Stagger } from "react-animation-components";
 
-const RenderLeader = ({ leader }) => {
+const RenderLeaderCard = ({ leader }) => {
   return (
     <Media className="my-5">
-      <Media  left href="#" key={leader.id}>
-        <Media object src={leader.image} alt={leader.name} height={80}/>
+      <Media left href="#" key={leader.id}>
+        <Media
+          object
+          src={baseUrl + leader.image}
+          alt={leader.name}
+          height={80}
+        />
       </Media>
       <Media body className="ml-4">
         <Media heading>{leader.name}</Media>
@@ -24,11 +32,43 @@ const RenderLeader = ({ leader }) => {
   );
 };
 
-function About(props) {
-  const leaders = props.leaders.map(leader => {
-    return <RenderLeader leader={leader} />;
-  });
+const RenderLeader = ({ props }) => {
+  if (props.leaders.isLoading) {
+    return (
+      <div className="container">
+        <div className="row">
+          <Loading />
+        </div>
+      </div>
+    );
+  } else if (props.leaders.errMess) {
+    return (
+      <div className="container">
+        <div className="row">
+          <div className="col-12">
+            <h4>{props.leaders.errMess}</h4>
+          </div>
+        </div>
+      </div>
+    );
+  } else {
+    let leaders = props.leaders.leaders;
+    const disLeader = (
+      <Stagger in>
+        {leaders.map(leader => {
+          return (
+            <Fade in>
+              <RenderLeaderCard leader={leader} />
+            </Fade>
+          );
+        })}
+      </Stagger>
+    );
+    return disLeader;
+  }
+};
 
+function About(props) {
   return (
     <div className="container">
       <div className="row">
@@ -105,7 +145,9 @@ function About(props) {
           <h2>Corporate Leadership</h2>
         </div>
         <div className="col-12">
-          <Media list>{leaders}</Media>
+          <Media list>
+            <RenderLeader props={props} />
+          </Media>
         </div>
       </div>
     </div>
