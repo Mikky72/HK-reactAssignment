@@ -1,3 +1,5 @@
+This project is my assignments 1,2,3,4 for Front-End Web Development with React Course which is offered by Hong Kong Uni
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
